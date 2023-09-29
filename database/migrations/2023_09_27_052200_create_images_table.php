@@ -15,10 +15,11 @@ return new class extends Migration
     {
         Schema::create('images', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('filename');
             $table->string('url');
             $table->integer('product_id');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
