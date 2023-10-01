@@ -29,21 +29,15 @@ class ProductController extends Controller
     public function create(Request $request)
     {
         $input = $request->all();
+        $images = $input['images'];
+        unset($input['images']);
         $user_id = 1;
         $input['user_id'] = $user_id;
         $product = Product::create($input);
-        if($request->hasFile('images')) {
-            $images = $request->file('images');
-            foreach($images as $key => $image) {
-                $filename = 'product_'.$product->id.'_'.$key.'.'.$image->extension();
-                $path = $image->storeAs('public/product', $filename);
-                $url = url(Storage::url($path));
-                Image::create([
-                    'product_id' => $product->id,
-                    'filename' => $filename,
-                    'url' => $url
-                ]);
-            }
+        if(count($images) > 1) {
+            Image::whereIn('id', $images)->update([
+                'product_id' => $product->id
+            ]);
         }
         return response()->json(new ProductResource($product));
     }
@@ -97,19 +91,14 @@ class ProductController extends Controller
             ], 404);
         }
         $input = $request->all();
+        $images = $input['images'];
+        unset($input['images']);
         $product->update($input);
-        if($request->hasFile('images')) {
+        if(count($images) > 1) {
             $product->removeAllImage();
-            $images = $request->file('images');
-            foreach($images as $key => $image) {
-                $filename = 'product_'.$product->id.'_'.$key.'.'.$image->extension();
-                $path = $image->storeAs('public/product', $filename);
-                Image::create([
-                    'product_id' => $product->id,
-                    'filename' => $filename,
-                    'url' => $path
-                ]);
-            }
+            Image::whereIn('id', $images)->update([
+                'product_id' => $product->id
+            ]);
         }
         return response()->json(new ProductResource($product));
     }
@@ -128,7 +117,7 @@ class ProductController extends Controller
                 'message' => 'Product is not exist!'
             ], 404);
         }
-        $product->removeAllImage();
+        $product->deleteAllImage();
         $product->delete();
         return response()->json([
             'message' => 'Delete Successful'

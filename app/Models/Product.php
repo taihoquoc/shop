@@ -28,11 +28,19 @@ class Product extends Model
         return $this->hasMany('App\Models\Image', 'product_id');
     }
 
-    public function removeAllImage() {
+    public function deleteAllImage() {
         $images = $this->images;
         foreach($images as $image) {
             Storage::delete($image->url);
             $image->delete();
+        }
+    }
+
+    public function removeAllImage() {
+        $images = $this->images;
+        foreach($images as $image) {
+            $image->product_id = null;
+            $image->save();
         }
     }
 }
