@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ProductResource;
 use App\Models\Image;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -44,7 +45,7 @@ class ProductController extends Controller
                 ]);
             }
         }
-        return response()->json($product);
+        return response()->json(new ProductResource($product));
     }
 
     /**
@@ -90,9 +91,14 @@ class ProductController extends Controller
     public function update(Request $request, $product_id)
     {
         $product = Product::find($product_id);
+        if(empty($product)) {
+            return response()->json([
+                'message' => 'Product is not exist!'
+            ], 404);
+        }
         $input = $request->all();
         $product->fill($input);
-        return response()->json($product);
+        return response()->json(new ProductResource($product));
     }
 
     /**
