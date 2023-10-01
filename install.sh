@@ -12,7 +12,7 @@ php artisan sail:add 3
 
 alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'
 
-sail up
+sail up -d
 
 sail artisan migrate
 
