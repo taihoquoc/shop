@@ -7,18 +7,10 @@ use App\Models\Image;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
 
     /**
      * Show the form for creating a new resource.
@@ -28,29 +20,33 @@ class ProductController extends Controller
      */
     public function create(Request $request)
     {
+        $rules = [
+            'title' => 'required,string',
+            'brand_id' => 'required,integer',
+            'price' => 'required,numeric',
+            'promo_price' => 'numeric',
+        ];
         $input = $request->all();
-        $images = $input['images'];
-        unset($input['images']);
-        $user_id = 1;
-        $input['user_id'] = $user_id;
-        $product = Product::create($input);
-        if(count($images) > 1) {
-            Image::whereIn('id', $images)->update([
-                'product_id' => $product->id
-            ]);
-        }
-        return response()->json(new ProductResource($product));
-    }
+        $validator = Validator::make($input, $rules);
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
+        if ($validator->passes()) { 
+            $images = $input['images'];
+            unset($input['images']);
+            $user_id = 1;
+            $input['user_id'] = $user_id;
+            $product = Product::create($input);
+            if(count($images) > 1) {
+                Image::whereIn('id', $images)->update([
+                    'product_id' => $product->id
+                ]);
+            }
+            return response()->json(new ProductResource($product));
+        }
         
+        return response()->json(array(
+            'errors' => $validator->getMessageBag()->toArray()
+
+        ), 500);
     }
 
     /**
@@ -98,14 +94,31 @@ class ProductController extends Controller
         $input = $request->all();
         $images = $input['images'];
         unset($input['images']);
-        $product->update($input);
-        if(count($images) > 1) {
-            $product->removeAllImage();
-            Image::whereIn('id', $images)->update([
-                'product_id' => $product->id
-            ]);
+        $rules = [
+            'title' => 'required,string',
+            'brand_id' => 'required,integer',
+            'price' => 'required,numeric',
+            'promo_price' => 'numeric',
+        ];
+        $input = $request->all();
+        $validator = Validator::make($input, $rules);
+
+        if ($validator->passes()) { 
+            $product->update($input);
+            if(count($images) > 1) {
+                $product->removeAllImage();
+                Image::whereIn('id', $images)->update([
+                    'product_id' => $product->id
+                ]);
+            }
+            return response()->json(new ProductResource($product));
         }
-        return response()->json(new ProductResource($product));
+
+        return response()->json(array(
+            'errors' => $validator->getMessageBag()->toArray()
+
+        ), 500);
+        
     }
 
     /**
