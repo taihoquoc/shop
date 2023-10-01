@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\ImageResource;
 use App\Models\Image;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\File;
@@ -12,6 +13,8 @@ use Illuminate\Validation\Rules\File;
 class ImageController extends Controller
 {
     public function create(Request $request) {
+        $user = Auth::user();
+        dd($user);
         $rules = [
             'image' => [
                 'required',

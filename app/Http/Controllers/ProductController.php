@@ -6,6 +6,7 @@ use App\Http\Resources\ProductResource;
 use App\Models\Image;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -20,6 +21,7 @@ class ProductController extends Controller
      */
     public function create(Request $request)
     {
+        $user = Auth::user();
         $rules = [
             'title' => 'required,string',
             'brand_id' => 'required,integer',
@@ -32,7 +34,7 @@ class ProductController extends Controller
         if ($validator->passes()) { 
             $images = $input['images'];
             unset($input['images']);
-            $user_id = 1;
+            $user_id = $user->id;
             $input['user_id'] = $user_id;
             $product = Product::create($input);
             if(count($images) > 1) {
@@ -103,7 +105,9 @@ class ProductController extends Controller
         $input = $request->all();
         $validator = Validator::make($input, $rules);
 
-        if ($validator->passes()) { 
+        if ($validator->passes()) {
+            $user_id = Auth::user()->id;
+            $input['user_id'] = $user_id; 
             $product->update($input);
             if(count($images) > 1) {
                 $product->removeAllImage();
