@@ -25,10 +25,19 @@ use Illuminate\Routing\Controller as BaseController;
  *      url=L5_SWAGGER_CONST_HOST,
  *      description="Demo API Server"
  * )
+ * @OA\Tag(
+ *     name="User",
+ *     description="API Endpoints of User"
+ * )
  *
  * @OA\Tag(
  *     name="Product",
  *     description="API Endpoints of Product"
+ * )
+ * 
+ * @OA\Tag(
+ *     name="Image",
+ *     description="API Endpoints of Image"
  * )
  */
 class Controller extends BaseController

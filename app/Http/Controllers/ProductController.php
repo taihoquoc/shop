@@ -220,7 +220,7 @@ class ProductController extends Controller
      *      description="Deletes a record and returns no content",
      *      security={{"bearerAuth":{}}},
      *      @OA\Parameter(
-     *          name="id",
+     *          name="product_id",
      *          description="Product id",
      *          required=true,
      *          in="path",
