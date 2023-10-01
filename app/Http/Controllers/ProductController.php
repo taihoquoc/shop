@@ -29,7 +29,15 @@ class ProductController extends Controller
      *      security={{"bearerAuth":{}}},
      *      @OA\RequestBody(
      *          required=true,
-     *          @OA\JsonContent(ref="#/components/schemas/StoreProductRequest")
+     *          @OA\JsonContent(
+     *            type="object",
+     *              @OA\Property(property="title", type="string", example="Product Title"),
+     *              @OA\Property(property="description", type="string", example="This is a sample product."),
+     *              @OA\Property(property="price", type="number", format="float", example=19.99),
+     *              @OA\Property(property="promo_price", type="number", format="float", example=10.99),
+     *              @OA\Property(property="brand_id", type="number",  example=1),
+     *              @OA\Property(property="images", type="array", @OA\Items(type="number", example=1)),
+     *          )
      *      ),
      *      @OA\Response(
      *          response=201,
@@ -124,7 +132,15 @@ class ProductController extends Controller
      *      ),
      *      @OA\RequestBody(
      *          required=true,
-     *          @OA\JsonContent(ref="#/components/schemas/UpdateProductRequest")
+     *          @OA\JsonContent(
+     *            type="object",
+     *              @OA\Property(property="title", type="string", example="Product Title"),
+     *              @OA\Property(property="description", type="string", example="This is a sample product."),
+     *              @OA\Property(property="price", type="number", format="float", example=19.99),
+     *              @OA\Property(property="promo_price", type="number", format="float", example=10.99),
+     *              @OA\Property(property="brand_id", type="number",  example=1),
+     *              @OA\Property(property="images", type="array", @OA\Items(type="number", example=1)),
+     *          )
      *      ),
      *      @OA\Response(
      *          response=202,
@@ -215,7 +231,10 @@ class ProductController extends Controller
      *      @OA\Response(
      *          response=204,
      *          description="Successful operation",
-     *          @OA\JsonContent()
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="Delete Successful"),
+     *          )
      *       ),
      *      @OA\Response(
      *          response=401,

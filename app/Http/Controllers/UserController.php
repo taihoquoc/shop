@@ -16,10 +16,22 @@ class UserController extends Controller
      *      tags={"Users"},
      *      summary="User Login",
      *      description="Returns token",
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\JsonContent(
+     *            type="object",
+     *              @OA\Property(property="email", type="string", format="email", example="master@mail.com"),
+     *              @OA\Property(property="password", type="string", example="password"),
+     *          )
+     *      ),
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
-     *        
+     *          @OA\JsonContent(
+     *            type="object",
+     *            @OA\Property(property="access_token", type="string", example=""),
+     *            @OA\Property(property="token_type", type="string", example="bearer"),
+     *          )
      *      ),
      * )
      */

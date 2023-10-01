@@ -31,19 +31,19 @@ use Illuminate\Routing\Controller as BaseController;
  *     description="API Endpoints of Product"
  * )
  */
-
- /**
- * @OA\SecurityScheme(
- *     type="http",
- *     description="Login with email and password to get the authentication token",
- *     name="Token based Based",
- *     in="header",
- *     scheme="bearer",
- *     bearerFormat="JWT",
- *     securityScheme="apiAuth",
- * )
- */
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
+     /**
+     * @OA\SecurityScheme(
+     *     type="http",
+     *     description="Login with email and password to get the authentication token",
+     *     name="Token based Based",
+     *     in="header",
+     *     scheme="bearer",
+     *     bearerFormat="JWT",
+     *     securityScheme="apiAuth",
+     * )
+     */
 }
