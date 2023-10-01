@@ -76,7 +76,7 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($product_id)
+    public function edit(Request $product_id)
     {
         //
     }
@@ -97,7 +97,20 @@ class ProductController extends Controller
             ], 404);
         }
         $input = $request->all();
-        $product->fill($input);
+        $product->update($input);
+        if($request->hasFile('images')) {
+            $product->removeAllImage();
+            $images = $request->file('images');
+            foreach($images as $key => $image) {
+                $filename = 'product_'.$product->id.'_'.$key.'.'.$image->extension();
+                $path = $image->storeAs('public/product', $filename);
+                Image::create([
+                    'product_id' => $product->id,
+                    'filename' => $filename,
+                    'url' => $path
+                ]);
+            }
+        }
         return response()->json(new ProductResource($product));
     }
 
@@ -107,8 +120,18 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($product_id)
     {
-        //
+        $product = Product::find($product_id);
+        if(empty($product)) {
+            return response()->json([
+                'message' => 'Product is not exist!'
+            ], 404);
+        }
+        $product->removeAllImage();
+        $product->delete();
+        return response()->json([
+            'message' => 'Delete Successful'
+        ]);
     }
 }

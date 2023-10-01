@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Storage;
 
 class Product extends Model
 {
@@ -25,5 +26,13 @@ class Product extends Model
 
     public function images() {
         return $this->hasMany('App\Models\Image', 'product_id');
+    }
+
+    public function removeAllImage() {
+        $images = $this->images;
+        foreach($images as $image) {
+            Storage::delete($image->url);
+            $image->delete();
+        }
     }
 }
