@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('url');
             $table->integer('product_id')->nullable();
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

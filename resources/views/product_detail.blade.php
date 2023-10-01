@@ -52,7 +52,7 @@
                 </div>
             </div>
 
-            <p>Brand: {{ $product->brand }}</p>
+            <p>Brand: {{ $product->brand->name ?? '' }}</p>
 
             <div class="tab-content" id="product_info_tab_content">
                 <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">

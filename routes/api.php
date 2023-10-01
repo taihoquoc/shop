@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -21,3 +22,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('product/create', [ProductController::class, 'create']);
 Route::put('product/{product_id}', [ProductController::class, 'update']);
+Route::post('image/create', [ImageController::class, 'create']);
+Route::delete('image/{image_id}', [ImageController::class, 'delete']);
