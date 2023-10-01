@@ -10,6 +10,19 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 
 class UserController extends Controller
 {
+    /**
+     * @OA\POST(
+     *      path="/api/user/login",
+     *      tags={"Users"},
+     *      summary="User Login",
+     *      description="Returns token",
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *        
+     *      ),
+     * )
+     */
     public function login(Request $request){
     	$validator = Validator::make($request->all(), [
             'email' => 'required|email',
