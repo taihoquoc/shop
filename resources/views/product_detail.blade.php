@@ -35,11 +35,11 @@
     <div class="product_detail_wrapper">
         <div class="product_image_group">
             <div class="product_img_main">
-                <img id="/image/img_main" src="{{ $product->images[0]->url }}" alt="">
+                <img id="/image/img_main" src="{{ url('/storage/'.$product->images[0]->url) }}" alt="">
             </div>
             <div class="product_img_sub">
                 @foreach($product->images as $image)
-                <span class="img_sub_wrapper"><img class="img_sub" src="{{ $image->url }}" alt=""></span>
+                <span class="img_sub_wrapper"><img class="img_sub" src="{{ url('/storage/'.$image->url) }}" alt=""></span>
                 @endforeach
             </div>
         </div>

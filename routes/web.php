@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,6 +16,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('homepage');
 
-Route::get('product/{product_id}', ['as' => 'product.detail', 'uses' => 'ProductController@show']);
+Route::get('product/{product_id}', [ProductController::class, 'show']);

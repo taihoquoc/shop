@@ -130,3 +130,8 @@
         </div>
     </body>
 </html>
+<script>
+@if(session('error'))
+   alert("{{ session('error') }}");
+@endif
+</script>

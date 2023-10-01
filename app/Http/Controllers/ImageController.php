@@ -13,7 +13,7 @@ class ImageController extends Controller
         if($request->hasFile('image')) {
             $image = $request->file('image');
             $filename = 'product_'.time().'.'.$image->extension();
-            $path = $image->storeAs('public/product', $filename);
+            $path = $image->store('product', 'public');
             $image = Image::create([
                 'filename' => $filename,
                 'url' => $path

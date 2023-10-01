@@ -62,8 +62,8 @@ class ProductController extends Controller
     public function show($product_id)
     {
         $product = Product::find($product_id);
-        if(empty($product_id)) {
-            return redirect('/');
+        if(empty($product)) {
+            return redirect()->route('homepage')->with('error', 'Product is not exist!');
         }
 
         return response()->view('product_detail', ['product' => new ProductResource($product)]);
