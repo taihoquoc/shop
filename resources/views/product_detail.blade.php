@@ -35,7 +35,7 @@
     <div class="product_detail_wrapper">
         <div class="product_image_group">
             <div class="product_img_main">
-                <img id="/image/img_main" src="{{ url('/storage/'.$product->images[0]->url) }}" alt="">
+                <img id="img_main" src="{{ url('/storage/'.$product->images[0]->url) }}" alt="">
             </div>
             <div class="product_img_sub">
                 @foreach($product->images as $image)
@@ -105,7 +105,7 @@
         }
 
         const main_img = $('#img_main').attr('src');
-        $(".img_sub").on( "click", function() {
+        $(".img_sub_wrapper").on( "click", ".img_sub",function() {
             const src = $(this).attr('src');
             $('#img_main').attr('src', src);
         });

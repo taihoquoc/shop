@@ -58,8 +58,6 @@ class ImageController extends Controller
      * )
      */
     public function create(Request $request) {
-        $user = Auth::user();
-        dd($user);
         $rules = [
             'image' => [
                 'required',

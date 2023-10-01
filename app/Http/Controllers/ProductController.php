@@ -62,9 +62,9 @@ class ProductController extends Controller
     {
         $user = Auth::user();
         $rules = [
-            'title' => 'required,string',
-            'brand_id' => 'required,integer',
-            'price' => 'required,numeric',
+            'title' => 'required|string',
+            'brand_id' => 'required|integer',
+            'price' => 'required|numeric',
             'promo_price' => 'numeric',
         ];
         $input = $request->all();
@@ -177,9 +177,9 @@ class ProductController extends Controller
         $images = $input['images'];
         unset($input['images']);
         $rules = [
-            'title' => 'required,string',
-            'brand_id' => 'required,integer',
-            'price' => 'required,numeric',
+            'title' => 'required|string',
+            'brand_id' => 'required|integer',
+            'price' => 'required|numeric',
             'promo_price' => 'numeric',
         ];
         $input = $request->all();
