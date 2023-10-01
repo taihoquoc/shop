@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('filename');
             $table->string('url');
-            $table->integer('product_id');
+            $table->integer('product_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

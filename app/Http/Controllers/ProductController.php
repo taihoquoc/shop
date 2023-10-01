@@ -59,9 +59,14 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($product_id)
     {
-        //
+        $product = Product::find($product_id);
+        if(empty($product_id)) {
+            return redirect('/');
+        }
+
+        return response()->view('product_detail', ['product' => new ProductResource($product)]);
     }
 
     /**

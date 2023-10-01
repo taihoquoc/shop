@@ -28,44 +28,41 @@
         <ul>
             <li><a href="/">Home</a></li>
             <li><a href="/home/product">Women's Top</a></li>
-            <li><a href="#">Product Names</a></li>
+            <li><a href="#">{{ $product->title }}</a></li>
         </ul>
     </div>
 
     <div class="product_detail_wrapper">
         <div class="product_image_group">
             <div class="product_img_main">
-                <img id="/image/img_main" src="prod1.jpg" alt="">
+                <img id="/image/img_main" src="{{ $product->images[0]->url }}" alt="">
             </div>
             <div class="product_img_sub">
-                <span class="img_sub_wrapper"><img class="img_sub" src="/image/prod2.jpg" alt=""></span>
-                <span class="img_sub_wrapper"><img class="img_sub" src="/image/prod3.jpg" alt=""></span>
-                <span class="img_sub_wrapper"><img class="img_sub" src="/image/prod4.jpg" alt=""></span>
+                @foreach($product->images as $image)
+                <span class="img_sub_wrapper"><img class="img_sub" src="{{ $image->url }}" alt=""></span>
+                @endforeach
             </div>
         </div>
         <div class="product_info_group">
             <div class="product_title_group">
-                <h1 class="product_tittle">Product title</h1>
+                <h1 class="product_tittle">{{ $product->title }}</h1>
                 <div class="product_price">
-                    <span id="original_price" data-original_price="75">75€</span>
-                    <span id="sale_price" data-sale_price="55">55€</span>
+                    <span id="original_price" data-original_price="{{ $product->price }}">{{ $product->price }}€</span>
+                    <span id="sale_price" data-sale_price="{{ $product->promo_price }}">{{ $product->promo_price }}€</span>
                 </div>
             </div>
 
-            <p>Brand</p>
+            <p>Brand: {{ $product->brand }}</p>
 
             <div class="tab-content" id="product_info_tab_content">
                 <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
-                    This is some placeholder content the Description tab's associated content
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                    {{ $product->description }}
                 </div>
                 <div class="tab-pane fade" id="delivery" role="tabpanel" aria-labelledby="delivery-tab">
-                    This is some placeholder content the Delivery tab's associated content
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                    Delivery Information
                 </div>
                 <div class="tab-pane fade" id="guarantees" role="tabpanel" aria-labelledby="guarantees-tab">
-                    This is some placeholder content the Guarantees Payment tab's associated content
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                    Guarantees Information
                 </div>
             </div>
             <ul class="nav nav-tabs" id="product_info_tab" role="tablist">
@@ -108,11 +105,9 @@
         }
 
         const main_img = $('#img_main').attr('src');
-        $(".img_sub").on( "mouseover", function() {
+        $(".img_sub").on( "click", function() {
             const src = $(this).attr('src');
             $('#img_main').attr('src', src);
-        }).on("mouseout", function() {
-            $('#img_main').attr('src', main_img)
         });
 
         function changeQuantity(direction) {
@@ -132,7 +127,10 @@
 
         function addTocart() {
             const product_quantity = parseInt($('#product_quantity').val());
-            const product_price = parseFloat($('#sale_price').attr('data-sale_price'));
+            const product_price = parseFloat($('#original_price').attr('data-original_price'));
+            const promo_price = parseFloat($('#sale_price').attr('data-sale_price'));
+
+            let price = promo_price > 0 ? promo_price : product_price;
 
             let cart_quantity = parseInt(localStorage.getItem("cart_quantity"));
             if(cart_quantity) {
@@ -142,9 +140,9 @@
             }
 
             $('#cart_amount').text(cart_quantity);
-            $('#cart_price').text(cart_quantity*product_price);
+            $('#cart_price').text(cart_quantity*price);
             localStorage.setItem("cart_quantity", cart_quantity);
-            localStorage.setItem("cart_price", cart_quantity*product_price);
+            localStorage.setItem("cart_price", cart_quantity*price);
         }
     </script>
 </body>
